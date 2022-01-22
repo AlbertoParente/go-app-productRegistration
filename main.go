@@ -18,6 +18,7 @@ func ConnectDatabase() *sql.DB {
 }
 
 type Product struct {
+	id          int
 	Name        string
 	Description string
 	Price       float64
@@ -27,17 +28,39 @@ type Product struct {
 var templates = template.Must(template.ParseGlob("templates/*.html"))
 
 func main() {
-	db := ConnectDatabase()
-	defer db.Close()
 	http.HandleFunc("/", index)
 	http.ListenAndServe(":8000", nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	products := []Product{
-		{"Apple", "Delicious", 1.00, 10},
-		{"Pineapple", "Very delicious", 3.00, 8},
+	db := ConnectDatabase()
+
+	getAllProducts, err := db.Query("select * from product")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	p := Product()
+	products := []Product{}
+
+	for getAllProducts.Next() {
+		var id, quantity int
+		var name, description string
+		var price float64
+
+		err = getAllProducts.Scan(&id, &name, &description, &price, &quantity)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		p.Name = name
+		p.Description = description
+		p.Price = price
+		p.Quantity = quantity
+
+		products = append(products, p)
 	}
 
 	templates.ExecuteTemplate(w, "Index", products)
+	defer db.Close()
 }
