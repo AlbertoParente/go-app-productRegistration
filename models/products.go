@@ -1,6 +1,9 @@
 package models
 
-import "github.com/go-app-productRegistration/db"
+import (
+	"github.com/go-app-productRegistration/db"
+	"github.com/go-app-productRegistration/models"
+)
 
 type Product struct {
 	id          int
@@ -18,7 +21,7 @@ func GetAllProducts() []Product {
 		panic(err.Error())
 	}
 
-	p := Product()
+	p := models.Product()
 	products := []Product{}
 
 	for getAllProducts.Next() {
@@ -38,5 +41,5 @@ func GetAllProducts() []Product {
 
 		products = append(products, p)
 	}
-	defer db.close()
+	defer db.Close()
 }
