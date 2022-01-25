@@ -1,3 +1,4 @@
+{{define "New"}}
 package models
 
 import (
@@ -43,3 +44,4 @@ func GetAllProducts() []Product {
 	}
 	defer db.Close()
 }
+{{end}}
