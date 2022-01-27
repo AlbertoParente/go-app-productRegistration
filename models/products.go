@@ -1,4 +1,3 @@
-{{define "New"}}
 package models
 
 import (
@@ -44,4 +43,7 @@ func GetAllProducts() []Product {
 	}
 	defer db.Close()
 }
-{{end}}
+
+func CreateNewProduct(name, description string, price float64, quantity int) {
+	db := db.ConnectDatabase("Fetching page data")
+}
