@@ -45,5 +45,14 @@ func GetAllProducts() []Product {
 }
 
 func CreateNewProduct(name, description string, price float64, quantity int) {
-	db := db.ConnectDatabase("Fetching page data")
+	db := db.ConnectDatabase()
+
+	insertDataIntoTheDatabase, err := db.Prepare("insert into produtos(name, description, price, quantity) values($1, $2. $3, $4)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	insertDataIntoTheDatabase.Exec(name, description, price, quantity)
+
+	defer db.Close()
 }
