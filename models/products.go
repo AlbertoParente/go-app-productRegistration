@@ -68,3 +68,7 @@ func DeleteProduct(id string) {
 	deleteByProduct.Exec(id)
 	defer db.Close()
 }
+
+func EditProduct(id string) {
+
+}
