@@ -20,7 +20,6 @@ func GetAllProducts() []Product {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	p := models.Product()
 	products := []Product{}
 
@@ -33,13 +32,11 @@ func GetAllProducts() []Product {
 		if err != nil {
 			panic(err.Error())
 		}
-
 		p.Id = id
 		p.Name = name
 		p.Description = description
 		p.Price = price
 		p.Quantity = quantity
-
 		products = append(products, p)
 	}
 	defer db.Close()
@@ -52,9 +49,7 @@ func CreateNewProduct(name, description string, price float64, quantity int) {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	insertDataIntoTheDatabase.Exec(name, description, price, quantity)
-
 	defer db.Close()
 }
 
@@ -64,7 +59,6 @@ func DeleteProduct(id string) {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	deleteByProduct.Exec(id)
 	defer db.Close()
 }
@@ -75,7 +69,6 @@ func EditProduct(id string) Product {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	productToUpdate := Product{}
 
 	for productDatabase.Next() {
